@@ -220,7 +220,7 @@ def parse_asterix(RGB_img, templ_path):
 
     # ===== targets: never flipped =====
     # read templates
-    targets = [cv2.imread(f'{templ_path}target{i}.png', 0) for i in range(8)]  # 8 targets in total
+    targets = [cv2.imread(f'{templ_path}/target{i}.png', 0) for i in range(8)]  # 8 targets in total
     # check each target template
     for target in targets:
         # init list for all targets in frame
