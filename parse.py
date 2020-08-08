@@ -94,15 +94,14 @@ def parse_asterix(RGB_img, templ_path):
     Parse *RGB* (same format as from ALE) frame of Asterix into state dict
     using template matching over the image.
     "target"s are the rewarding objects and "demon"s are the punishing objects.
-    *** Note we only include templates and parsing for low score targets (first 8) ***
     Absent agent/objects are filled with [None x 4] to match shape.
 
     :param RGB_img: input game frame as from ALE. shape: 210x160x3.
     :param templ_path: path to all the templates for parsing.
                       Should include 2 for agents, 8 for targets, and 1 for demon.
-    :return: frame_dict: {'agent': [y1, y2, x1, x2],                 (shape: 4,)
-                          'target': [[y1, y2, x1, x2] for each car], (shape: 8x4)
-                          'demon': [[y1, y2, x1, x2]]}               (shape: 8x4)
+    :return: frame_dict: {'agent': [y1, y2, x1, x2],                  (shape: 4,)
+                          'target': [[y1, y2, x1, x2] for each lane], (shape: 8x4)
+                          'demon': [[y1, y2, x1, x2] for each lane]}  (shape: 8x4)
              Note here the y-then-x convention follows matrix access convention.
              All coordinates are in lists.
     """
@@ -169,8 +168,7 @@ def parse_asterix(RGB_img, templ_path):
 
     # ==================== parsing asterix ========================
     # make frame BGR, so cv2 readable
-    BGR_img = cv2.cvtColor(RGB_img, cv2.COLOR_RGB2BGR)
-    img = cv2.cvtColor(BGR_img, cv2.COLOR_BGR2GRAY)[:150, :]  # only take arena of 8 lanes
+    img = cv2.cvtColor(RGB_img, cv2.COLOR_RGB2GRAY)[:150, :]  # only take arena of 8 lanes
 
     # Initializing output for frame
     state = {'agent': [None for _ in range(4)],
